@@ -1,0 +1,19 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.rsb6061/onceask",
+  "title": "OnceAsk",
+  "description": "MCP server for OnceAsk, the AI-native current-address layer for people and agents.",
+  "repository": {
+    "url": "https://github.com/rsb6061/onceask-mcp",
+    "source": "github",
+    "id": "1372386848"
+  },
+  "version": "1.0.0",
+  "websiteUrl": "https://onceask.com",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://onceask.com/_api/mcp"
+    }
+  ]
+}
