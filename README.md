@@ -1,10 +1,10 @@
-# OnceAsk MCP
+# OnceAsk MCP — Contacts + Current Mailing Addresses
 
-Official MCP discovery repo for [OnceAsk](https://onceask.com), the AI-native current-address layer for people and agents.
+Official MCP discovery repo for [OnceAsk](https://onceask.com), a contacts and address-book MCP for AI agents that need a person's **current mailing address**, not just the last address stored in a contact record.
 
 > Addresses change. OnceAsk keeps them current.
 
-OnceAsk helps an AI assistant resolve a known person to a current, permissioned delivery destination instead of relying on stale contact records.
+OnceAsk helps an AI assistant resolve a known person to a current, permissioned delivery destination or request an update when the address is missing or stale.
 
 ## MCP endpoint
 
@@ -12,42 +12,66 @@ OnceAsk helps an AI assistant resolve a known person to a current, permissioned 
 
 Transport: Streamable HTTP
 
-## What OnceAsk is for
+Registry identity: `io.github.rsb6061/onceask`
 
-OnceAsk is designed for workflows where an assistant knows **who** someone is but may not have a current or permissioned mailing address.
+## What makes OnceAsk different
 
-Typical use cases include:
+A conventional contacts integration can tell an agent **who** a person is and expose whatever fields are stored for that contact. OnceAsk focuses on the next problem: **is this person's mailing address current and usable for this physical-delivery action?**
 
-- Retrieve a current, permissioned address for a known contact.
-- Request an address when it is missing.
-- Avoid using stale address-book data after someone moves.
-- Support gifting, concierge, clienteling, real-estate, recruiting, event, and personal-assistant workflows that need physical delivery.
+OnceAsk can return an explicit delivery state instead of treating a saved address as automatically current:
 
-Example user intent:
+- `authorized` — the recipient is ready for an authorized delivery action.
+- `permission_required` — request recipient permission.
+- `address_update_required` — ask the recipient to confirm or update the current address.
+- `ambiguous` — ask the user which matching person they mean.
+- `not_found` — collect or create the recipient first.
 
-> Get Aunt Theresa's current mailing address.
+## Core MCP tools
 
-The agent should resolve the person through OnceAsk rather than guess from an old contact record.
+### `resolve_delivery`
 
-## Registry identity
+Resolve a known person or contact to a current delivery state. This is the preferred primitive for AI agents that need to send something physical.
 
-MCP Registry name:
+### `request_delivery_permission`
 
-`io.github.rsb6061/onceask`
+Trigger the recipient-confirmation flow when an address is missing, stale, or not yet authorized.
 
-Registry metadata is defined in [`server.json`](./server.json).
+### `list_handwritten_cards`
 
-## Publish to the MCP Registry
+List supported Handwrytten card designs and handwriting styles without exposing recipient data.
 
-Install the official MCP publisher, authenticate with GitHub, then publish from this repository:
+### `send_handwritten_card`
 
-```bash
-brew install mcp-publisher
-mcp-publisher login github
-mcp-publisher publish
-```
+Fulfill an authorized card delivery using an opaque delivery token. The preferred flow does not return the recipient's raw street address as ordinary model output.
 
-Then verify the listing:
+## Example agent workflows
+
+- "Send Aunt Theresa a birthday card."
+- "Mail this client a thank-you gift."
+- "Get John's current mailing address before we send the invitation."
+- "Ask Sarah for her new address."
+- "Send the document to Mike without relying on the address in our old CRM record."
+
+The agent can identify the person from its existing context, then use OnceAsk to resolve the current delivery state.
+
+## Useful links
+
+- [Contacts MCP](https://onceask.com/contacts-mcp)
+- [Address Book MCP](https://onceask.com/address-book-mcp)
+- [MCP overview](https://onceask.com/mcp)
+- [Developer quickstart](https://onceask.com/developers)
+- [Developer docs](https://onceask.com/docs)
+- [AI agent address book](https://onceask.com/ai-agent-address-book)
+- [Mailing address API](https://onceask.com/mailing-address-api)
+- [Agent-readable guide](https://onceask.com/agents.txt)
+- [OpenAPI schema](https://onceask.com/.well-known/openapi.json)
+- [MCP manifest](https://onceask.com/.well-known/mcp.json)
+
+## MCP Registry
+
+The registry metadata is defined in [`server.json`](./server.json).
+
+To verify the official registry listing:
 
 ```bash
 curl "https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.rsb6061/onceask"
