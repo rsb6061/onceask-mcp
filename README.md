@@ -67,6 +67,13 @@ The agent can identify the person from its existing context, then use OnceAsk to
 - [OpenAPI schema](https://onceask.com/.well-known/openapi.json)
 - [MCP manifest](https://onceask.com/.well-known/mcp.json)
 
+## Live directory listings
+
+- [Official Model Context Protocol Registry](https://registry.modelcontextprotocol.io/?q=io.github.rsb6061%2Fonceask)
+- [Glama connector — health, tools, and schema](https://glama.ai/mcp/connectors/io.github.rsb6061/onceask)
+
+These listings point to the same production endpoint and registry identity: `io.github.rsb6061/onceask`.
+
 ## MCP Registry
 
 The registry metadata is defined in [`server.json`](./server.json).
