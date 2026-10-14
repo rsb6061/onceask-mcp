@@ -1,0 +1,11 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "onceask-edge-proxy",
+  "main": "proxy-worker.mjs",
+  "compatibility_date": "2026-10-14",
+  "workers_dev": true,
+  "routes": [
+    { "pattern": "onceask.com/*", "zone_name": "onceask.com" },
+    { "pattern": "www.onceask.com/*", "zone_name": "onceask.com" }
+  ]
+}
